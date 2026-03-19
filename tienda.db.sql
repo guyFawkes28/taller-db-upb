@@ -40,4 +40,38 @@ INSERT INTO "Pedidos" VALUES (1,1,'2026-03-18',80.0);
 INSERT INTO "Productos" VALUES (1,'medias',30.0,50);
 INSERT INTO "Productos" VALUES (2,'Tennis adidas',50.0,10);
 INSERT INTO "Productos" VALUES (3,'camisilla',25.0,10);
+
+
+SELECT * FROM Clientes;
+ 
+ 
+SELECT p.id AS pedido_id,
+       p.fecha,
+       p.total,
+       (SELECT nombre FROM Clientes WHERE id = p.cliente_id) AS cliente
+FROM Pedidos p
+ORDER BY p.id;
+ 
+ 
+SELECT dp.pedido_id AS pedido_id,
+       (SELECT nombre FROM Clientes WHERE id = (
+           SELECT cliente_id FROM Pedidos WHERE id = dp.pedido_id
+       )) AS cliente,
+       (SELECT nombre FROM Productos WHERE id = dp.producto_id) AS producto,
+       dp.cantidad,
+       dp.subtotal
+FROM Detalles_Pedido dp
+ORDER BY dp.pedido_id, dp.id;
+ 
+ 
+SELECT p.id AS pedido_id,
+       p.total AS total_registrado,
+       COALESCE((SELECT SUM(subtotal) FROM Detalles_Pedido WHERE pedido_id = p.id), 0) AS total_calculado
+FROM Pedidos p;
+
+
+
+
+
+
 COMMIT;
