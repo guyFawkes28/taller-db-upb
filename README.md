@@ -2,6 +2,52 @@
 
 Este repositorio contiene una colección de consultas SQL diseñadas para la gestión y auditoría de una base de datos de ventas. Las consultas utilizan **subconsultas** para relacionar entidades de clientes, pedidos y productos.
 
+
+#infomracion DETALLADA DE LA BASE DE DATOS Y SUS TABLAS CON RELACIONES Y CARDINALIDAD
+1. Clientes ↔ Pedidos
+• Relación: "Un cliente realiza pedidos".
+• Campos vinculados: Clientes.id (PK) → Pedidos.cliente_id (FK).
+• Cardinalidad: 1:N (Uno a Muchos).
+• Lado Cliente: Un cliente puede realizar cero o muchos pedidos (notación del círculo y la pata de gallo).
+• Lado Pedido: Un pedido pertenece obligatoriamente a uno y solo un cliente (notación de las dos líneas paralelas).
+2. Pedidos ↔ Detalles_Pedido
+• Relación: "Un pedido contiene detalles".
+• Campos vinculados: Pedidos.id (PK) → Detalles_Pedido.pedido_id (FK).
+• Cardinalidad: 1:N (Uno a Muchos).
+• Lado Pedido: Un pedido debe tener al menos uno o muchos detalles de pedido.
+• Lado Detalles_Pedido: Cada línea de detalle pertenece obligatoriamente a un único pedido.
+3. Productos ↔ Detalles_Pedido
+• Relación: "Un producto es incluido en los detalles".
+• Campos vinculados: Productos.id (PK) → Detalles_Pedido.producto_id (FK).
+• Cardinalidad: 1:N (Uno a Muchos).
+• Lado Producto: Un producto puede aparecer en cero o muchos detalles de pedido.
+• Lado Detalles_Pedido: Cada detalle de pedido se refiere obligatoriamente a un único producto.
+
+#Relaciones
+
+TABLA: Clientes
+• id: INTEGER (PK)
+• nombre: TEXT
+• correo: TEXT
+• telefono: TEXT
+TABLA: Pedidos
+• id: INTEGER (PK)
+• cliente_id: INTEGER (FK -> Clientes.id)
+• fecha: TEXT
+• total: REAL
+TABLA: Productos
+• id: INTEGER (PK)
+• nombre: TEXT
+• precio: REAL
+• stock: INTEGER
+TABLA: Detalles_Pedido
+• id: INTEGER (PK)
+• pedido_id: INTEGER (FK -> Pedidos.id)
+• producto_id: INTEGER (FK -> Productos.id)
+• cantidad: INTEGER
+• precio_unitario: REAL
+• subtotal: REAL
+
 ##  Estructura de Consultas
 
 ### 1. Vista General de Clientes
